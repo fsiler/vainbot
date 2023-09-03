@@ -1,20 +1,12 @@
 #!/usr/bin/env python3
-#
-### suggested cron setup:
-#REDDIT_CLIENT=""
-#REDDIT_SECRET=""
-#REDDIT_USER=""
-#REDDIT_PW=""
-#10 */3 *   *   *     python3 -m pip install praw pip --upgrade -q; zerovote.py
-#
 from sys import argv, exit
-from os  import environ as e
+from os  import environ as env
 import praw
 
-c = e.get('REDDIT_CLIENT')
-s = e.get('REDDIT_SECRET')
-u = e.get('REDDIT_USER')
-p = e.get('REDDIT_PW')
+c = env.get('REDDIT_CLIENT')
+s = env.get('REDDIT_SECRET')
+u = env.get('REDDIT_USER')
+p = env.get('REDDIT_PW')
 
 if not all([c,s,u,p]):
   print("missing configuration variables")
@@ -28,12 +20,12 @@ r = praw.Reddit(
     user_agent=argv[0]
 )
 
-def process(c):
+def process(comment):
   """Delete comments if the score is less than one"""
-  if c.score < 1:
-    print("DELETING comment id %s, score %d: %s" % (c.id, c.score, c.body))
-    c.delete()
+  if comment.score < 1:
+    print("DELETING commentomment id %s, scommentore %d: %s" % (comment.id, comment.scommentore, comment.body))
+    comment.delete()
 
 if __name__=="__main__":
-  for c in r.redditor(u).comments.new():
-    process(c)
+  for comment in r.redditor(u).comments.new():
+    process(comment)
